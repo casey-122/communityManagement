@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<h1>展示所有社团</h1>
+<%= session[:yong_hu_id] %>
+<%= current_user.user_id %>
+<table border="solid">
+  <thead>
+    <tr>
+      <th>Club name</th>
+      <th>Club email</th>
+      <th>Club brief</th>
+      <th>Found time</th>
+      <th>社长</th>
+      <th>User ID</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clubs.each do |club| %>
+      <tr>
+        <td><%= link_to "#{club.club_name}", "/clubs/show_clubs/#{club.id}" %>
+        </td>
+        <td><%= club.club_email %></td>
+        <td width="800px">
+          <a href="/clubs/show_clubs/<%= club.id %>"><%= club.club_brief %></a> </td>
+        <td><%= club.found_time %></td>
+        <td><%= club.get_real_name %></td>
+
+        <td><%= club.get_real_name %></td>
+        <td><%= link_to 'Show', club %></td>
+        <% if current_user%>
+          <% if current_user.president? || current_user.admin? || current_user.chairman?%>
+            <td><%= link_to 'Edit', edit_club_path(club) %></td>
+            <td><%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        <% end %>
+        <td>
+          <a data-remote="true"><i class="fa fa-comment-o">
+            <!-- 获取评论数 -->
+            <%= "#{club.get_club_items}" %>
+            </i></a>
+          </td>
+        <td>
+          <!-- 添加的代码，加载partial文件_get_thumbs.html.erb -->
+          <%= render :partial => "/clubs/get_thumbs", :locals => {:club => club} %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+  <% if current_user%>
+    <% if current_user.member?%>
+      <%= link_to 'New Club', new_club_path %>
+    <% end %>
+  <% end %>

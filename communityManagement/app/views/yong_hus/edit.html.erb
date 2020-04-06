@@ -1,0 +1,36 @@
+<h1>Editing Yong Hu</h1>
+
+<%#= render 'form', yong_hu: @yong_hu %>
+<%= form_for :yong_hu, url: {action: "update"} do |f| %>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :real_name %>
+    <%= f.text_field :real_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sex %>
+    <%= f.text_field :sex %>
+  </div>
+
+  <div class="field">
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </div>
+
+  <div class="field">
+    <%= f.label :birth %>
+    <%= f.date_field :birth %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<%= link_to 'Show', @yong_hu %> |
+<%#= link_to 'Back', yong_hus_path %>

@@ -1,0 +1,2 @@
+module YongHusHelper
+end

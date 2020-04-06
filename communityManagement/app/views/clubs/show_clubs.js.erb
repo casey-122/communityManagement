@@ -1,0 +1,4 @@
+//每次点击分页的时候，都会调用这个show_clubs.js.erb文件，文件会加载某一页的内容。
+//在id为”data_content”的标签中，加载partial文件_show_clubs.html.erb里面的内容。
+$("#data_content").html('<%= j render "/clubs/show_clubs" %>');
+//render前面的 j 是escape_javascript的缩写，意思是为javascript片段去掉字符串中的回车符，单引号，双引号

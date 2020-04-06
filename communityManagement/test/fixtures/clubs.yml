@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  club_name: MyString
+  club_email: MyString
+  club_brief: MyText
+  found_time: 2020-04-06
+  activity_num: MyString
+  yong_hu: one
+
+two:
+  club_name: MyString
+  club_email: MyString
+  club_brief: MyText
+  found_time: 2020-04-06
+  activity_num: MyString
+  yong_hu: two

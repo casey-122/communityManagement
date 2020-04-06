@@ -1,0 +1,45 @@
+<!-- 获取用户是否为此社团点过赞，分别显示不同的图标 -->
+<!-- 先判断当前是否有用户登录，在判断用户是否为此社团点过赞-->
+<!-- <a>标签内再加上data-remote="true"，实现ajax功能，
+Ajax 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
+点完赞后我们还是想停留在当前页面位置，如果不使用ajax功能，用户点击点赞按钮，整个页面会刷新，影响体验。-->
+
+<% if current_user && club.get_thumb_info(session[:yong_hu_id]) %>
+<!--      当a标签中同时有href、onclick两个元素时，先执行onclick中的方法，再执行a标签，-->
+<!--      先执行onclick中的praiseReplay方法，将页面上的赞数减1（此时数据库里面的数据还没变），-->
+<!--      然后在通过a标签链接找到clubs_controller中的create_thumb方法，-->
+<!--      通过 /<%#= club.id %>/0 这两个参数找到Thumb表中的对应数据，将这条数据的is_thumb字段改为false-->
+  <a data-remote="true" href="/clubs/create_thumb/<%= club.id %>/0" id="reduce" class="fa fa-thumbs-up" onclick="praiseReplay(this)">
+    <%= "#{club.get_thumbs}"%>
+  </a>
+<% elsif current_user%>
+  <a data-remote="true" href="/clubs/create_thumb/<%= club.id %>/1" id="increase" class="fa fa-thumbs-o-up" onclick="praiseReplay(this)">
+    <%= "#{club.get_thumbs}"%>
+  </a>
+<% else %>
+  <!-- 没有账户登录时的情况 -->
+  <a data-remote="true" href="/users/sign_in" class="fa fa-thumbs-o-up" onclick="alert('您还未登录，请先登录')">
+    <%= "#{club.get_thumbs}"%>
+  </a>
+<%end%>
+
+<script type="text/javascript">
+    function praiseReplay(oldTotal){
+        if(oldTotal.className == "fa fa-thumbs-up")
+        {
+            oldTotal.className = "fa fa-thumbs-o-up";
+            var oldValue = oldTotal.innerHTML;
+            oldTotal.innerHTML = " " + (parseInt(oldValue) - 1);
+            href = oldTotal.href
+            oldTotal.href = href.substring(0, href.length - 1) + "0"
+        }
+        else
+        {
+            oldTotal.className = "fa fa-thumbs-up";
+            var oldValue = oldTotal.innerHTML;
+            oldTotal.innerHTML = " " + (parseInt(oldValue) + 1);
+            href = oldTotal.href
+            oldTotal.href = href.substring(0, href.length - 1) + "1"
+        }
+    }
+</script>

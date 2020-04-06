@@ -1,0 +1,36 @@
+// Place all the styles related to the News controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.home-banner-links {
+  position: absolute;
+  left: 160px;
+  top: 280px;
+  .banner-btn {
+    padding: 10px 10px;
+    font-size: 1.2em;
+    font-weight: 300;
+    font-family: "museo-sans-condensed";
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(220,20,60,0.2);
+    border: 1px solid transparent;
+    &:hover {
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+  }
+}
+
+.new-issue-form-container {
+  width: 800px;
+  background: white;
+  margin: 30px auto;
+  .new-issue-form {
+    width: 600px;
+    margin: 10px auto;
+  }
+}
+
+.submit-issue-button {
+  height: 50px;
+  width: 100%;
+}

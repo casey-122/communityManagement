@@ -1,0 +1,74 @@
+<div class="container" style="width: 60%">
+  <article class="clearfix">
+    <div class="avatar body">
+      <!-- 获取社长的名字，get_real_name是在club.rb文件中定义的实例方法 -->
+<!--      <a class="read-more" href="#"><%#= @club.user_id %></a>-->
+      <a class="read-more" href="#">社长：<%= @club.get_real_name %></a>
+    </div>
+    <div class="head">社团名称：<%= @club.club_name %></div>
+    <div>社团简介：<%= @club.club_brief %></div>
+    <div class="head">社团成立时间：<%= @club.found_time %></div>
+
+    <div class="time_right padding-thumb">
+      <!-- 锚点定位，点击会定位到id为co-point的元素-->
+      <a href="#co-point"><i class="fa fa-comment-o">
+        <!-- 获取评论数,get_club_items方法在app/models/club.rb中定义 -->
+        <%= "#{@club.get_club_items}" %>
+      </i> </a>
+      <!-- 加载partial文件，传递@club参数 -->
+      <%= render :partial => "/clubs/get_thumbs", :locals => {:club => @club} %>
+      <!-- 社团最后的修改时间 -->
+      <%= @club.updated_at.strftime ("%Y-%m-%d %H:%m") %>
+    </div>
+  </article>
+
+  <hr>
+
+  <div id="data-content">
+    <%= render :partial => "/clubs/show_clubs" %>
+  </div>
+
+  <hr>
+
+  <!-- 评论框的内容 -->
+  <%= session[:yong_hu_id] %>
+  <%= form_for ClubComment.new, url: "/clubs/create_comment" do |f| %>
+    <!-- 评框的id为co-point，id后面不需要加上每个评论的id，因为评论框会出现在页面最下方，与每个评论的位置没有关系 -->
+    <div class="comment-form" name="co-point" id="co-point">
+      <input type="text" name="comment" placeholder="写下你的评论..." class="comment-text">
+      <div class="comment-submit">
+        <input type="submit" value="发布" class="submit-issue-button btn btn-primary">
+      </div>
+      <input type="hidden" name="club_id" value="<%= @club.id %>">
+      <input type="hidden" name="as_type" value="0">
+    </div>
+  <% end %>
+</div>
+
+<!--  点击回复<a>标签时，执行下面的js方法outIn()，先判断当前是否有用户登录，-->
+<!--  如果没有用户登录，需要提示「您还未登录，请先登录！」。-->
+<!--  如果有用户登录，判断coReply回复框的显示状态，-->
+<!--  如果是未显示状态，将状态改为显示oReply.style.display = "block";-->
+<!--  回复改为取消回复coA.innerHTML = "取消回复";-->
+<!--  如果是显示状态，将状态改为未显示，取消回复改为回复。-->
+<script type="text/javascript">
+    function outIn(comment_id,reply_id){
+        <% if current_user %>
+        //coReply为回复框对象
+        var coReply = document.getElementById("co-reply" + comment_id);
+        //coA为回复a标签对象
+        var coA = document.getElementById("reply" + reply_id);
+        if(coReply.style.display == "none"){
+            coReply.style.display = "block";
+            coA.innerHTML = "取消回复";
+        }
+        else{
+            coReply.style.display = "none";
+            coA.innerHTML = "回复";
+        }
+        <% else %>
+        alert("您还未登录，请先登录！");
+        <% end %>
+        coReply.innerHTML = coReply.innerHTML + "<input type='hidden' name='re_reply_id' value='" + reply_id +"'>"
+    }
+</script>

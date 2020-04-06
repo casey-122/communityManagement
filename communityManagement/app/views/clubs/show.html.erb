@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Club name:</strong>
+  <%= @club.club_name %>
+</p>
+
+<p>
+  <strong>Club email:</strong>
+  <%= @club.club_email %>
+</p>
+
+<p>
+  <strong>Club brief:</strong>
+  <%= @club.club_brief %>
+</p>
+
+<p>
+  <strong>Found time:</strong>
+  <%= @club.found_time %>
+</p>
+
+<p>
+  <strong>社长:</strong>
+  <%= @club.get_real_name %>
+</p>
+
+<hr>
+
+<% if current_user.user_id == YongHu.find_by(id:@club.yong_hu_id).user_id %>
+  <%= link_to 'Edit', edit_club_path(@club) %>
+<%end -%>
+
+<%= link_to 'Back', clubs_path %>

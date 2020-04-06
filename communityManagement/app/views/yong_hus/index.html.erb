@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Yong Hus</h1>
+
+<table border="solid">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Real name</th>
+      <th>Sex</th>
+      <th>Phone</th>
+      <th>Birth</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @yong_hus.each do |yong_hu| %>
+      <tr>
+        <td><%= yong_hu.user_id %></td>
+        <td><%= yong_hu.real_name %></td>
+        <td><%= yong_hu.sex %></td>
+        <td><%= yong_hu.phone %></td>
+        <td><%= yong_hu.birth %></td>
+        <td><%= link_to 'Show', yong_hu %></td>
+        <td><%= link_to 'Edit', edit_yong_hu_path(yong_hu) %></td>
+        <td><%= link_to 'Destroy', yong_hu, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Yong Hu', new_yong_hu_path %>
