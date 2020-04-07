@@ -1,23 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Club name:</strong>
+  <strong>社团名称:</strong>
   <%= @club.club_name %>
 </p>
 
 <p>
-  <strong>Club email:</strong>
+  <strong>社团邮箱:</strong>
   <%= @club.club_email %>
 </p>
 
 <p>
-  <strong>Club brief:</strong>
+  <strong>社团简介:</strong>
   <%= @club.club_brief %>
 </p>
 
 <p>
-  <strong>Found time:</strong>
-  <%= @club.found_time %>
+  <strong>申请时间:</strong>
+  <%= @club.created_at.strftime ("%Y-%m-%d %H:%m") %>
 </p>
 
 <p>
@@ -25,10 +25,20 @@
   <%= @club.get_real_name %>
 </p>
 
+<p>
+  <strong>状态:</strong>
+  审批中……请耐心等待……
+</p>
+
 <hr>
 
 <% if current_user.user_id == YongHu.find_by(id:@club.yong_hu_id).user_id %>
   <%= link_to 'Edit', edit_club_path(@club) %>
-<%end -%>
+<% end-%>
 
-<%= link_to 'Back', clubs_path %>
+<% if current_user.chairman? || current_user.admin? %>
+  <%= link_to "返回", clubs_club_active_path %>
+<% else %>
+  <%= link_to 'Back', clubs_path %>
+<% end %>
+

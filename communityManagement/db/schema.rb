@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200406115242) do
+ActiveRecord::Schema.define(version: 20200407070721) do
 
   create_table "club_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "yong_hu_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20200406115242) do
     t.integer  "yong_hu_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "status"
     t.index ["yong_hu_id"], name: "index_clubs_on_yong_hu_id", using: :btree
   end
 

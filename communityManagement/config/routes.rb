@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  #进入审批社团页面
+  get 'clubs/club_active' => 'clubs#club_active'
+
+  #审批新建社团
+  get 'update_active/:club_id' => 'clubs#update_active'
+
    # get 'news/new'
    #发布新闻
   post 'news/create'
@@ -11,9 +17,7 @@ Rails.application.routes.draw do
 
   # resources :messages
   resources :yong_hus
-  resources :clubs do
-    resources :messages
-  end
+  resources :clubs
   devise_for :users
   root 'welcome#index'
 

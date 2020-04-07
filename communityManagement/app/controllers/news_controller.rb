@@ -1,5 +1,5 @@
 class NewsController < ApplicationController
-  before_action :check_login
+  before_action :check_login, only:[:create]
 
   def index
     @news = New.all.order(club_id: :asc, created_at: :desc)
@@ -46,6 +46,7 @@ class NewsController < ApplicationController
     end
   end
 
+  #新闻详情
   def show_news
     new_id = params[:new_id]
     @new = New.find(new_id)

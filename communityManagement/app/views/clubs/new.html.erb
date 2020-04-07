@@ -1,5 +1,25 @@
 <h1>New Club</h1>
 
-<%= render 'form', club: @club %>
+<%#= render 'form', club: @club %>
+<%= form_for Club.new do |f| %>
+  <div class="field">
+    <%= f.label :club_name %>
+    <%= f.text_field :club_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :club_email %>
+    <%= f.text_field :club_email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :club_brief %>
+    <%= f.text_area :club_brief %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "提交申请" %>
+  </div>
+<% end %>
 
 <%= link_to 'Back', clubs_path %>

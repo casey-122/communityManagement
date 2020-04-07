@@ -1,5 +1,20 @@
 <div class="container" style="width: 60%">
   <div>
-    <
+    <h4 align="center"><%= @new.title %></h4>
   </div>
+  <br/>
+  <div><p align="center">发布者：
+        <% if @new.club_id > 0 %>
+          <%= Club.find_by(id:@new.club_id).club_name %>
+        <% elsif @new.club_id == -1 %>
+          管理员
+        <% else @new.club_id == -2 %>
+          社联主席
+        <% end %>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         发布时间：<%= @new.created_at.strftime("%Y-%m-%d") %>
+        </p>
+  </div>
+  <br/>
+  <div width="60%"><p align="left"><%= @new.content %></p></div>
 </div>

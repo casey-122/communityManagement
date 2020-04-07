@@ -1,6 +1,6 @@
 class ClubsController < ApplicationController
   before_action :set_club, only: [:show, :edit, :update, :destroy]
-
+  before_action :check_login, only: [:new]
 
   # 通过这个方法的认证后才能访问所请求的动作，这里除了 index 和 show 动作，其他动作都要通过身份验证才能访问
   # http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
@@ -8,7 +8,7 @@ class ClubsController < ApplicationController
   # GET /clubs
   # GET /clubs.json
   def index
-    @clubs = Club.all
+    @clubs = Club.where(status:1)
   end
 
   # GET /clubs/1
@@ -120,7 +120,14 @@ class ClubsController < ApplicationController
 
   # GET /clubs/new
   def new
-    @club = Club.new
+    puts(session[:yong_hu_id])
+    club0 = Club.find_by(yong_hu_id:session[:yong_hu_id])
+    if club0
+      flash.notice = "您已经是位社长大人了，不可以再创建其他社团哟"
+      redirect_to root_path
+    else
+      @club = Club.new
+    end
   end
 
   # GET /clubs/1/edit
@@ -133,16 +140,31 @@ class ClubsController < ApplicationController
     @yong_hu = YongHu.find_by(user_id: current_user.user_id)
     @club = Club.new(club_params)
     @club.yong_hu_id = @yong_hu.id
+    @club.status = '0'
 
     respond_to do |format|
       if @club.save
-        format.html { redirect_to @club, notice: 'Club was successfully created.' }
+        format.html { redirect_to @club, notice: '提交申请成功，等待社联大大审批中……' }
         format.json { render :show, status: :created, location: @club }
       else
         format.html { render :new }
         format.json { render json: @club.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  #进入审批新社团页面
+  def club_active
+    @clubs = Club.where(status:0)
+  end
+
+  #审批新建社团
+  def update_active
+    club_id = params[:club_id]
+    club = Club.find(club_id)
+    club.status = 1
+    club.save
+    redirect_to clubs_club_active_path
   end
 
   # PATCH/PUT /clubs/1

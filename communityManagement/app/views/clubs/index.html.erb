@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <h1>展示所有社团</h1>
-<%= session[:yong_hu_id] %>
-<%= current_user.user_id %>
+<%#= session[:yong_hu_id] %>
+<%#= current_user.user_id %>
 <table border="solid">
   <thead>
     <tr>
@@ -11,30 +11,25 @@
       <th>Club brief</th>
       <th>Found time</th>
       <th>社长</th>
-      <th>User ID</th>
-      <th colspan="5"></th>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @clubs.each do |club| %>
       <tr>
-        <td><%= link_to "#{club.club_name}", "/clubs/show_clubs/#{club.id}" %>
-        </td>
+        <td><%= link_to "#{club.club_name}", "/clubs/show_clubs/#{club.id}" %></td>
         <td><%= club.club_email %></td>
-        <td width="800px">
-          <a href="/clubs/show_clubs/<%= club.id %>"><%= club.club_brief %></a> </td>
-        <td><%= club.found_time %></td>
+        <td width="800px"><a href="/clubs/show_clubs/<%= club.id %>"><%= club.club_brief %></a></td>
+        <td><%= club.created_at.strftime ("%Y-%m-%d") %></td>
         <td><%= club.get_real_name %></td>
-
-        <td><%= club.get_real_name %></td>
-        <td><%= link_to 'Show', club %></td>
         <% if current_user%>
           <% if current_user.president? || current_user.admin? || current_user.chairman?%>
             <td><%= link_to 'Edit', edit_club_path(club) %></td>
             <td><%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <% end %>
         <% end %>
+
         <td>
           <a data-remote="true"><i class="fa fa-comment-o">
             <!-- 获取评论数 -->

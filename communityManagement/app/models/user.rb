@@ -32,6 +32,7 @@ class User < ApplicationRecord
     self.role == "chairman"
   end
 
+
   attr_writer :login
 
   def login

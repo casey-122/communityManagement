@@ -14,30 +14,46 @@
 
   <body>
   <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Community多彩校园</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <%= link_to("社团简介", clubs_path, :class => "nav-link") %>
-<!--            <a class="nav-link" href="/clubs/index">社团简介</a>-->
           </li>
           <li class="nav-item">
             <%= link_to("新闻列表", news_index_path, :class => "nav-link") %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/welcome/activityIndex">活动安排</a>
+            <a class="nav-link" href="#">活动安排</a>
           </li>
 
           <% if current_user%>
             <% if current_user.role == "member" %>
-                <%= link_to("创建社团", clubs_path(current_user), :class => "nav-link") %>
+              <%= link_to("创建社团", new_club_path, :class => "nav-link") %>
+            <% end %>
+          <% end %>
+
+          <% if current_user %>
+            <% if current_user.chairman? || current_user.admin?%>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  审批管理
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/clubs/club_active">创建社团审批</a>
+                  <a class="dropdown-item" href="#">活动策划审批</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
             <% end %>
           <% end %>
 
@@ -47,10 +63,9 @@
         </ul>
 
         <%if current_user %>
-          <%= current_user.email%>
-            &nbsp;&nbsp;
+          当前用户：<%= current_user.email%>
+          &nbsp;&nbsp;
           <div class="dropdown">
-
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               个人中心
             </a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -59,16 +74,20 @@
               <%= link_to('修改密码', edit_registration_path(:user), class: "dropdown-item") %>
               <%= link_to('基本信息', yong_hu_path(id:current_user.user_id), class: "dropdown-item") %>
               <% if current_user.president? || current_user.chairman? || current_user.admin? %>
-                <%= link_to('发布新闻', new_news_path, class: "dropdown-item") %>
+                <div class="dropdown-divider"></div>
+                  <%= link_to('发布新闻', new_news_path, class: "dropdown-item") %>
+                </div>
+
               <% end %>
             </div>
           </div>
           <%= link_to('退出', destroy_user_session_path, :method => :delete, class: "btn btn-outline-success my-2 my-sm-0") %>
 
         <% else %>
-            <%= link_to('注册', new_registration_path(:user), class: "btn btn-outline-success my-2 my-sm-0") %>&nbsp;&nbsp;
-            <%= link_to('登陆', new_session_path(:user), class: "btn btn-outline-success my-2 my-sm-0") %>
+          <%= link_to('注册', new_registration_path(:user), class: "btn btn-outline-success my-2 my-sm-0") %>&nbsp;&nbsp;
+          <%= link_to('登陆', new_session_path(:user), class: "btn btn-outline-success my-2 my-sm-0") %>
         <% end %>
+
       </div>
     </nav>
   </header>
@@ -76,31 +95,16 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
+
+    <div class="footer">
+      <div>
+        <p class="align">©版权所属©  2020</p>
+      </div>
+    </div>
+
    <!--  如果flash.notice有值，页面会弹出flash.notice的值-->
     <%# if flash.notice %>
 <!--      <div class="notice"><%#= flash.notice %></div>-->
     <%# end %>
-
-<!--    <div class="footer">-->
-<!--      <div>-->
-<!--        <p class="align">©版权所属©  2020</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!-- hideNotice: flash.notice提示标签在展示2秒后消失 -->
-<!--    <script>-->
-<!--        var hideNotice = function(){-->
-<!--            $(".notice").fadeOut("slow");-->
-<!--        }-->
-<!--        setTimeout(hideNotice, 2000);-->
-<!--    </script>-->
-
-<!--    <script type="text/javascript">-->
-<!--        $('.home-banner').anystretch();-->
-<!--    </script>-->
-
-<!--    <%#= csrf_meta_tags %> -->-->
-<!--    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>-->
-<!--    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
-
   </body>
 </html>
