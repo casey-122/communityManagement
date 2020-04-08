@@ -10,6 +10,10 @@
         <dt><%= f.label "内容" %></dt>
         <dd><%= f.text_area :content %></dd>
       </dl>
+      <dl class="form">
+        <dt><%= f.label "附件" %></dt>
+        <dt><%= f.file_field :file_url %></dt>
+      </dl>
       <input type="submit" value="发布" class="submit-issue-button btn btn-primary">
     <% end %>
   </div>

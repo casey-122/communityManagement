@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  yong_hu_id: 1
+  club_id: 1
+  status: 1
+
+two:
+  yong_hu_id: 1
+  club_id: 1
+  status: 1

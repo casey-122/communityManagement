@@ -1,8 +1,13 @@
 class NewsController < ApplicationController
-  before_action :check_login, only:[:create]
+  before_action :check_login, only: [:create]
 
   def index
     @news = New.all.order(club_id: :asc, created_at: :desc)
+  end
+
+  def file_download
+    @news = Activity.find_by(id:params[:id])
+    send_file "#{Rails.root}/public/upload/#{@news.file_url}"
   end
 
   def create
@@ -33,6 +38,11 @@ class NewsController < ApplicationController
       new = New.new(club_id:club_id, status:0)
       new.title = title
       new.content = content
+      uploaded_file = params[:new][:file_url]
+      File.open(Rails.root.join('public', 'upload', uploaded_file.original_filename), 'wb') do |file|
+        file.write(uploaded_file.read)
+      end
+      new.file_url = uploaded_file.original_filename
       boolean = new.save
       puts("程序到这了：5")
 

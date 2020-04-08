@@ -1,3 +1,4 @@
+<%= link_to "返回", news_index_path %>
 <div class="container" style="width: 60%">
   <div>
     <h4 align="center"><%= @new.title %></h4>
@@ -17,4 +18,7 @@
   </div>
   <br/>
   <div width="60%"><p align="left"><%= @new.content %></p></div>
+  <% if @new.file_url %>
+    <div><p>附件：<%= link_to @new.file_url, file_download_path(@new)%></p></div>
+  <% end %>
 </div>

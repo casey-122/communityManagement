@@ -13,10 +13,21 @@ class ApplicationController < ActionController::Base
 
   # 检查当前是否有用户登录
   def check_login
-    yong_hu_id = YongHu.find_by(user_id:current_user.user_id).id
-    session[:yong_hu_id] = yong_hu_id
-    current_user ||= session[:yong_hu_id] && YongHu.find(session[:yong_hu_id])
+    if current_user.blank?
+      flash.notice = "您还没有登录，请先登录"
+      redirect_to new_session_path(:user)
+    else
+      if yong_hu_id = YongHu.find_by(user_id:current_user.user_id).id
+        session[:yong_hu_id] = yong_hu_id
+        current_user ||= session[:yong_hu_id] && YongHu.find(session[:yong_hu_id])
+      else
+        flash.notice = "您还没有完善个人信息"
+        redirect_to yong_hu_path(id:current_user.user_id)
+      end
+    end
   end
+
+
 
   protected
 

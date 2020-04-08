@@ -1,6 +1,6 @@
 class ClubsController < ApplicationController
   before_action :set_club, only: [:show, :edit, :update, :destroy]
-  before_action :check_login, only: [:new]
+  before_action :check_login, except: [:index, :show_clubs]
 
   # 通过这个方法的认证后才能访问所请求的动作，这里除了 index 和 show 动作，其他动作都要通过身份验证才能访问
   # http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
@@ -21,8 +21,7 @@ class ClubsController < ApplicationController
     club_id = params[:club_id]
     @club = Club.find(club_id)
     #as_type为0时代表社团的评论，为1时代表评论的回复
-    @club_comments = ClubComment.where(club_id:club_id, as_type:0)
-                         .order(updated_at: :desc).page(params[:page]).per(10)
+    @club_comments = ClubComment.where(club_id:club_id, as_type:0).order(updated_at: :desc).page(params[:page]).per(10)
     puts(@club_comments.count)
   end
 

@@ -1,5 +1,6 @@
 class YongHusController < ApplicationController
   before_action :set_yong_hu, only: [:edit, :destroy]
+  before_action :check_login, only: [:join_club]
 
   # GET /yong_hus
   # GET /yong_hus.json
@@ -69,7 +70,41 @@ class YongHusController < ApplicationController
         render 'edit'
       end
     end
+  end
 
+  #申请加入某社团
+  def join_club
+    if application = Application.find_by(yong_hu_id:session[:yong_hu_id])
+      flash.notice = "您已提交过申请，请耐心等待……"
+      redirect_to "/clubs/show_clubs/#{params[:club_id]}"
+    else
+      application = Application.create(yong_hu_id:session[:yong_hu_id], club_id:params[:club_id], status:0)
+      flash.notice = "申请提交成功，请耐心等待社长审核……"
+      redirect_to "/clubs/show_clubs/#{params[:club_id]}"
+    end
+  end
+
+  #进入审批社团新成员页面
+  def join_active
+    club_id = Club.find_by(yong_hu_id:session[:yong_hu_id]).id
+    @applications = Application.where(status:0, club_id:club_id)
+  end
+
+  #审核社团新成员
+  def update_active
+    yong_hu_id = params[:yong_hu_id]
+    puts("程序到这儿了：1")
+    puts(yong_hu_id)
+    app = Application.find_by(yong_hu_id:yong_hu_id)
+    puts("程序到这儿了：2")
+    puts(app.yong_hu_id)
+    app.status = 1
+    app.save
+    yong_hu = YongHu.find_by(id:yong_hu_id)
+    yong_hu.club_id = app.club_id
+    yong_hu.save
+    puts("申请成功")
+    redirect_to yong_hus_join_active_path
   end
 
   # DELETE /yong_hus/1

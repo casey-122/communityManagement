@@ -1,0 +1,2 @@
+class ActThumb < ApplicationRecord
+end

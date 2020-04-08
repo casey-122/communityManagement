@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h1>展示所有活动</h1>
+<%#= session[:yong_hu_id] %>
+<%#= current_user.user_id %>
+<table border="solid">
+  <thead>
+  <tr>
+    <th>活动名称</th>
+    <th>活动社团</th>
+    <th>活动地点</th>
+    <th>活动时间</th>
+    <th>活动描述</th>
+    <th>活动策划</th>
+    <th colspan="5"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @activities.each do |act| %>
+    <tr>
+      <td><%= link_to "#{act.act_name}", "/activities/show_activities/#{act.id}" %></td>
+      <td><%= act.get_club_name %></td>
+      <td><%= act.act_address %></td>
+      <td><%= act.start_time %>~<%= act.end_time %></td>
+      <td width="500px"><a href="/activities/show_activities/<%= act.id %>"><%= act.act_describe %></a></td>
+      <td><%= link_to act.plan_url, file_download_path(act)%></td>
+
+      <% if current_user%>
+        <% if current_user.president? || current_user.admin? || current_user.chairman?%>
+          <td><%= link_to 'Edit', edit_activity_path(act) %></td>
+          <td><%= link_to 'Destroy', act, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      <% end %>
+
+      <td>
+        <!-- <a>标签内再加上data-remote="true"，实现ajax功能,-->
+        <!-- class="fa fa-thumbs-up"是取用的Font Awesome 矢量图标库中的点赞图标-->
+        <a data-remote="true"><i class="fa fa-comment-o">
+          <!-- 获取评论数 -->
+          <%= "#{act.get_activity_items}" %>
+        </i></a>
+      </td>
+      <td>
+        <!-- 添加的代码，加载partial文件_get_thumbs.html.erb -->
+        <%= render :partial => "/activities/get_thumbs", :locals => {:activity => act} %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200407115026) do
+ActiveRecord::Schema.define(version: 20200408090936) do
+
+  create_table "act_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "yong_hu_id"
+    t.integer  "act_id"
+    t.integer  "status"
+    t.text     "content",       limit: 65535
+    t.integer  "as_type"
+    t.integer  "re_comment_id"
+    t.integer  "re_reply_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "act_thumbs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "yong_hu_id"
+    t.integer  "act_id"
+    t.boolean  "is_thumb"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "club_id"
@@ -24,6 +44,14 @@ ActiveRecord::Schema.define(version: 20200407115026) do
     t.integer  "status"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "applications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "yong_hu_id"
+    t.integer  "club_id"
+    t.integer  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "club_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -54,7 +82,7 @@ ActiveRecord::Schema.define(version: 20200407115026) do
   create_table "news", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
     t.text     "content",    limit: 65535
-    t.string   "images"
+    t.string   "file_url"
     t.integer  "status"
     t.integer  "club_id"
     t.datetime "created_at",               null: false
@@ -92,6 +120,7 @@ ActiveRecord::Schema.define(version: 20200407115026) do
     t.date     "birth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "club_id"
   end
 
   add_foreign_key "clubs", "yong_hus"
