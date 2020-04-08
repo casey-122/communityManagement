@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  club_id: 1
+  yong_hu_id: 1
+  act_name: MyString
+  act_describe: MyText
+  start_time: 2020-04-07
+  end_time: 2020-04-07
+  act_address: MyString
+  plan_url: MyString
+  status: 1
+
+two:
+  club_id: 1
+  yong_hu_id: 1
+  act_name: MyString
+  act_describe: MyText
+  start_time: 2020-04-07
+  end_time: 2020-04-07
+  act_address: MyString
+  plan_url: MyString
+  status: 1

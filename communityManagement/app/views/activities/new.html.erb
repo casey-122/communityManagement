@@ -1,0 +1,33 @@
+<div>
+  <div>
+    <%= form_for Activity.new, url: "/activities/create" do |f| %>
+      <%#= f.hidden_field :account_id %>
+      <dl>
+        <dt><%= f.label "活动名称：" %></dt>
+        <dd><%= f.text_field :act_name %></dd>
+      </dl>
+      <dl>
+        <dt><%= f.label "活动描述：" %></dt>
+        <dd><%= f.text_area :act_describe %></dd>
+      </dl>
+      <dl>
+        <dt><%= f.label "开始时间：" %></dt>
+        <dd><%= f.date_field :start_time %></dd>
+      </dl>
+      <dl>
+        <dt><%= f.label "结束时间：" %></dt>
+        <dd><%= f.date_field :end_time %></dd>
+      </dl>
+      <dl>
+        <dt><%= f.label "活动地点：" %></dt>
+        <dd><%= f.text_field :act_address %></dd>
+      </dl>
+      <dl>
+        <dt><%= f.label "活动策划书：" %></dt>
+        <dd><%= f.file_field :plan_url %></dd>
+      </dl>
+
+      <input type="submit" value="提交">
+    <% end %>
+  </div>
+</div>

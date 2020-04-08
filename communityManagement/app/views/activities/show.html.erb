@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>活动名称:</strong>
+  <%= @activity.act_name %>
+</p>
+
+<p>
+  <strong>活动社团:</strong>
+  <%= @activity.get_club_name %>
+</p>
+
+<p>
+  <strong>申请人:</strong>
+  <%= @activity.get_yong_hu_name %>
+</p>
+
+<p>
+  <strong>活动描述:</strong>
+  <%= @activity.act_describe %>
+</p>
+
+<p>
+  <strong>开始时间:</strong>
+  <%= @activity.start_time%>
+</p>
+
+<p>
+  <strong>结束时间:</strong>
+  <%= @activity.end_time%>
+</p>
+
+<p>
+  <strong>结束地点:</strong>
+  <%= @activity.act_address%>
+</p>
+
+<p>
+  <strong>活动策划书:</strong>
+  <%= link_to @activity.plan_url, file_download_path(@activity)%>
+</p>
+
+<p>
+  <strong>状态:</strong>
+  审批中……请耐心等待……
+</p>
+
+<hr>
+
+<% if current_user.user_id == YongHu.find_by(id:@activity.yong_hu_id).user_id && @activity.status == 0 %>
+  <%= link_to 'Edit', edit_activity_path(@activity) %>
+<% end-%>
+
+<% if current_user.chairman? || current_user.admin? %>
+  <%= link_to "返回", activities_activity_active_path %>
+<% else %>
+  <%= link_to 'Back', activities_path %>
+<% end %>
+

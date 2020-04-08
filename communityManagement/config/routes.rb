@@ -1,10 +1,21 @@
 Rails.application.routes.draw do
 
+  #进入活动策划
+  get 'activities/new'
+  #创建活动策划
+  post 'activities/create'
+  #审批活动策划
+  get 'activities/activity_active' => 'activities#activity_active'
+  # 审核活动策划
+  get 'activities/update_active/:activity_id' => 'activities#update_active'
+  #下载活动策划案文件
+  get '/activities/file_download/:id' => 'activities#file_download',as:"file_download"
+
+
   #进入审批社团页面
   get 'clubs/club_active' => 'clubs#club_active'
-
   #审批新建社团
-  get 'update_active/:club_id' => 'clubs#update_active'
+  get 'clubs/update_active/:club_id' => 'clubs#update_active'
 
    # get 'news/new'
    #发布新闻
@@ -15,7 +26,7 @@ Rails.application.routes.draw do
 
   resources :news
 
-  # resources :messages
+  resources :activities
   resources :yong_hus
   resources :clubs
   devise_for :users
