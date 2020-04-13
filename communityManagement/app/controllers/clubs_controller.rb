@@ -163,6 +163,7 @@ class ClubsController < ApplicationController
     club = Club.find(club_id)
     club.status = 1
     club.save
+    yong_hu = YongHu.find_by()
     redirect_to clubs_club_active_path
   end
 
